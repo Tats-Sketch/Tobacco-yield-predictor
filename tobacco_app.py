@@ -2,10 +2,22 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import pickle
+import urllib.request
+import os
 
-# ── LOAD MODEL ──
-with open('tobacco_yield_model.pkl', 'rb') as file:
-    model = pickle.load(file)
+# ── LOAD MODEL FROM GOOGLE DRIVE ──
+@st.cache_resource
+def load_model():
+    url = "https://drive.google.com/uc?export=download&id=1Ek08CgUjBQPOPrUvIMtMBx0R9QuLVHOA"
+    file_path = "tobacco_yield_model.pkl"
+    
+    if not os.path.exists(file_path):
+        urllib.request.urlretrieve(url, file_path)
+    
+    with open(file_path, 'rb') as file:
+        return pickle.load(file)
+
+model = load_model()
 
 # ── TITLE ──
 st.set_page_config(page_title="Tobacco Yield Predictor", layout="centered")
