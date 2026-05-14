@@ -4,6 +4,7 @@ import numpy as np
 import pickle
 import urllib.request
 import os
+import ssl
 
 # ── LOAD MODEL FROM GOOGLE DRIVE ──
 @st.cache_resource
@@ -11,8 +12,9 @@ def load_model():
     url = "https://drive.google.com/uc?export=download&id=1Ek08CgUjBQPOPrUvIMtMBx0R9QuLVHOA"
     file_path = "tobacco_yield_model.pkl"
     
-    if not os.path.exists(file_path):
-        urllib.request.urlretrieve(url, file_path)
+    # Download with SSL context
+    ssl_context = ssl._create_unverified_context()
+    urllib.request.urlretrieve(url, file_path)
     
     with open(file_path, 'rb') as file:
         return pickle.load(file)
