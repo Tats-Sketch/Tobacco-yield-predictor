@@ -5,7 +5,8 @@ import pickle
 
 # ── LOAD MODEL ──
 with open('tobacco_yield_model.pkl', 'rb') as file:
-    model = pickle.load(file)
+    model_package = pickle.load(file)
+    model = model_package['model']
 
 # ── TITLE ──
 st.set_page_config(page_title="Tobacco Yield Predictor", layout="centered")
